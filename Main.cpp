@@ -2,7 +2,7 @@
 #include <gdiplus.h>
 #include <vector>
 #include <string>
-#include "stega.cpp"
+#include "steganographie.cpp"
 
 using namespace Gdiplus;
 #pragma comment(lib, "gdiplus.lib")
