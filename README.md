@@ -36,8 +36,8 @@
 ##### La méthode LSB nécessite un accès direct aux octets du fichier BMP.
 ##### Exemple de récupération de l’offset du pixel data :
 
-`int offset = *reinterpret_cast<int*>(&bmpData[10]);`
-`// Le pixel data commence généralement à l’offset 54`
+    int offset = *reinterpret_cast<int*>(&bmpData[10]);
+    // Le pixel data commence généralement à l’offset 54
 
 ##### Ce format est indispensable car l’intégration utilise une écriture directe dans les octets du fichier.
 
@@ -58,7 +58,6 @@
 
 `vector<unsigned char> data((istreambuf_iterator<char>(file)), istreambuf_iterator<char>());`
 
-
 ### Étape 2 — Entrer le texte
 
 ##### Saisir le message à cacher dans la zone de texte située en bas de la fenêtre.
@@ -71,9 +70,8 @@
 
 #### *L’intégration LSB s’effectue ainsi :*
 
-`bmpData[dataIndex] &= 0xFE;           // Efface le dernier bit`
-
-`bmpData[dataIndex] |= ((c >> i) & 1); // Insère un bit du message`
+    bmpData[dataIndex] &= 0xFE;           // Efface le dernier bit
+    bmpData[dataIndex] |= ((c >> i) & 1); // Insère un bit du message
 
 ##### Un octet `0` est ajouté à la fin pour indiquer la fin du message.
 
