@@ -15,20 +15,20 @@ class Steganographie {
 public:
 
 	vector<unsigned char> ReadBMP(const string& filename) {
-		ifstream file(filename, ios::binary);
+		ifstream file(filename, ios::binary); //ouvre le fichier
 		if (!file) {
 			cerr << "Erreur: impossible d'ouvrir le fichier BMP.\n";
 			exit(1);
 		}
 
-		vector<unsigned char> data((istreambuf_iterator<char>(file)), istreambuf_iterator<char>());
-		file.close();
+		vector<unsigned char> data((istreambuf_iterator<char>(file)), istreambuf_iterator<char>()); //recupere la liste des bits du fichier
+		file.close(); //ferme le fichier originel (guarde le data collecte)
 		return data;
 	}
 
 
 	void WriteBMP(const string& filename, const vector<unsigned char>& data) {
-		ofstream file(filename, ios::binary);
+		ofstream file(filename, ios::binary); //ouvre le fichier (mode binaire pour modifier le code du fichier lui meme)
 		if (!file) {
 			cerr << "Erreur: impossible d'écrire le fichier BMP.\n";
 			exit(1);
@@ -40,14 +40,13 @@ public:
 
 
 	void EmbedLSB(vector<unsigned char>& bmpData, const string& message) {
-		// BMP 24 bits : le pixel data commence à l'offset 54
 		int offset = *reinterpret_cast<int*>(&bmpData[10]);
 		int dataIndex = offset;
 
 		for (char c : message) {
 			for (int i = 0; i < 8; ++i) {
-				bmpData[dataIndex] &= 0xFE; // mettre le bit de poids faible à 0
-				bmpData[dataIndex] |= ((c >> i) & 1); // ajouter le bit du message
+				bmpData[dataIndex] &= 0xFE; // bit faible a 0 pour choix simple
+				bmpData[dataIndex] |= ((c >> i) & 1); // bit faible mis comme pour le message
 				dataIndex++;
 				if (dataIndex >= bmpData.size()) {
 					cerr << "Erreur: message trop long pour l'image!\n";
